@@ -7,6 +7,8 @@ bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
 
+    configurations = ['archives']
+//    publications = ['MyPublication']
     publish = true
 
     pkg {
