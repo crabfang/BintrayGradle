@@ -1,0 +1,31 @@
+//classpath 'org.quanqi:pgyer:0.1.2'
+
+apply plugin: 'org.quanqi.pgyer'
+
+String getPropertyVal(String key) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    String property = properties.getProperty(key)
+    println "property-->" + key + " : " + property
+    property
+}
+
+pgyer {
+    _api_key = getPropertyVal("pgyer_api_key")
+    uKey = getPropertyVal("pgyer_user_key")
+}
+
+apks {
+    release {
+//        String path = "build/outputs/apk/sample-release.apk"
+        String path = buildDir.path + "/outputs/apk/"
+        String name = getPropertyVal("pgyer_file_name")
+
+        sourceFile = file(path + name)
+    }
+}
+
+task buildAndUpload() {
+    dependsOn assembleRelease
+    dependsOn uploadPgyer
+}
