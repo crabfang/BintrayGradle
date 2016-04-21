@@ -17,10 +17,8 @@ pgyer {
 
 apks {
     release {
-//        String path = "build/outputs/apk/sample-release.apk"
         String path = buildDir.path + "/outputs/apk/"
-        String name = getPropertyVal("pgyer_file_name")
-
+        String name = project.name + "-release.apk"
         sourceFile = file(path + name)
     }
 }
