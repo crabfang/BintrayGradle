@@ -1,0 +1,42 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+task javadocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    from "${buildDir}/javadoc"
+}
+
+task sourcesJar(type: Jar) {
+    if(project.hasProperty("android")) {
+        from android.sourceSets.main.allSource
+    } else {
+        from sourceSets.main.allSource
+    }
+    classifier = 'sources'
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    publish = true
+
+    pkg {
+        repo = "maven"
+        name = PROJ_NAME
+        desc = PROJ_DESC
+        websiteUrl = PROJ_URL_LINK
+        vcsUrl = PROJ_URL_GIT
+        issueTrackerUrl = PROJ_URL_ISSUE
+        licenses = ["Apache-2.0"]
+        publicDownloadNumbers = true
+    }
+}
