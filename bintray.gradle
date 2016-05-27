@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 task sourcesJar(type: Jar) {
     //from android.sourceSets.main.java.srcDirs
     if(project.hasProperty("android")) {
-        from android.sourceSets.main.allSource
+        from android.sourceSets.main.java.srcDirs
     } else {
         from sourceSets.main.allSource
     }
